@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+
+
 namespace PrisonBreak
 {
     /// <summary>
@@ -18,6 +20,7 @@ namespace PrisonBreak
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont Text;
 
         public Game1()
         {
@@ -42,11 +45,17 @@ namespace PrisonBreak
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+          Vector2 FontPos;
+        float FontRotation;
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
+            Text = Content.Load<SpriteFont>("SpriteFont");
+            spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
+            FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+            FontRotation = 0;
             // TODO: use this.Content to load your game content here
         }
 
@@ -84,6 +93,20 @@ namespace PrisonBreak
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            // Draw Hello World
+            string output = "Hello World";
+
+            // Find the center of the string
+            Vector2 FontOrigin = Text.MeasureString(output) / 2;
+            // Draw the string
+           spriteBatch.DrawString(Text, output, FontPos, Color.LightGreen,
+                FontRotation, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.End();
+
+            EndsWithTest texture = new EndsWithTest();
+            
 
             base.Draw(gameTime);
         }
