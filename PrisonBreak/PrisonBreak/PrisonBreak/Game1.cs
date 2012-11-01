@@ -21,6 +21,12 @@ namespace PrisonBreak
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont Text;
+        OutputText Words;
+        int timeCounter = 0;
+        int subIndex = 0;
+        string output;
+        bool ToLong = false;
+        int loopcounter = 10;
 
         public Game1()
         {
@@ -51,11 +57,16 @@ namespace PrisonBreak
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+           
             Text = Content.Load<SpriteFont>("SpriteFont");
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             FontPos = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+
             FontRotation = 0;
+
+            Words = new OutputText();
+             output = Words.Stuff();
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,19 +82,43 @@ namespace PrisonBreak
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
+        /// </summary>           
+
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+              
             // TODO: Add your update logic here
 
+
+            timeCounter += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeCounter >= 150 && subIndex < output.Length)
+            {
+                if (subIndex > loopcounter)
+                {
+                    ToLong = true;
+                    loopcounter += 10;
+                }
+
+                if (ToLong == true)
+                {
+                    output += "\n";
+                    //FontPos.Y += 20;
+                    ToLong = false;
+                }
+
+                timeCounter = 0;
+                subIndex++;
+
+            }
+                
+            
             base.Update(gameTime);
         }
-
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -95,18 +130,20 @@ namespace PrisonBreak
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            // Draw Hello World
-            string output = "Hello World";
+            
+
+          
+
 
             // Find the center of the string
             Vector2 FontOrigin = Text.MeasureString(output) / 2;
             // Draw the string
-           spriteBatch.DrawString(Text, output, FontPos, Color.LightGreen,
+           spriteBatch.DrawString(Text, output.Substring(0, subIndex), FontPos, Color.Black,
                 FontRotation, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.End();
 
-            EndsWithTest texture = new EndsWithTest();
-            
+
+           
 
             base.Draw(gameTime);
         }
