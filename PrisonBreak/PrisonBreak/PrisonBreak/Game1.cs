@@ -21,13 +21,14 @@ namespace PrisonBreak
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont Text;
-        OutputText Words;
+		OutputText Test;
+      /*  OutputText Words;
         int timeCounter = 0;
         int subIndex = 0;
         string output;
         bool ToLong = false;
         int loopcounter = 10;
-
+		*/
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -53,6 +54,7 @@ namespace PrisonBreak
         /// </summary>
           Vector2 FontPos;
         float FontRotation;
+
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -64,9 +66,11 @@ namespace PrisonBreak
 
             FontRotation = 0;
 
-            Words = new OutputText();
+		 Test = new OutputText();
+			
+          /*  Words = new OutputText();
              output = Words.Stuff();
-
+			*/
             // TODO: use this.Content to load your game content here
         }
 
@@ -85,16 +89,18 @@ namespace PrisonBreak
         /// </summary>           
 
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
+       protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-              
+		//Test.Update(gameTime);
+		Test.Update(gameTime);
+
             // TODO: Add your update logic here
 
 
-            timeCounter += gameTime.ElapsedGameTime.Milliseconds;
+           /* timeCounter += gameTime.ElapsedGameTime.Milliseconds;
             if (timeCounter >= 150 && subIndex < output.Length)
             {
                 if (subIndex > loopcounter)
@@ -114,7 +120,7 @@ namespace PrisonBreak
                 subIndex++;
 
             }
-                
+                */
             
             base.Update(gameTime);
         }
@@ -136,10 +142,16 @@ namespace PrisonBreak
 
 
             // Find the center of the string
-            Vector2 FontOrigin = Text.MeasureString(output) / 2;
-            // Draw the string
-           spriteBatch.DrawString(Text, output.Substring(0, subIndex), FontPos, Color.Black,
-                FontRotation, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+           // Vector2 FontOrigin = Text.MeasureString(output) / 2;
+            Vector2 FontOrigin = new Vector2(5,5);
+			// Draw the string
+          // spriteBatch.DrawString(Text, output.Substring(0, subIndex), FontPos, Color.Black,
+
+
+
+			spriteBatch.DrawString(Text, Test.CurrentText, FontPos, Color.Black, FontRotation, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+
+			//FontRotation, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.End();
 
 
